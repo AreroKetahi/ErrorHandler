@@ -37,3 +37,43 @@ func withErrorHandler(
         handler.raise(error, action: handlerAction)
     }
 }
+
+// MARK: - Error handler with result type
+
+@inlinable
+public func withErrorHandler<Value>(
+    _ handler: ErrorHandler,
+    operation: () throws -> Value,
+    faliureResult: @autoclosure () -> Value,
+    handlerAction: (() -> Void)? = nil
+) -> Result<Value, any Error> {
+    do {
+        let result = try operation()
+        return .success(result)
+    } catch let error as LocalizedError {
+        handler.raise(error, action: handlerAction)
+        return .failure(error)
+    } catch {
+        handler.raise(error, action: handlerAction)
+        return .failure(error)
+    }
+}
+
+@inlinable @MainActor
+func withErrorHandler<Value>(
+    _ handler: ErrorHandler,
+    operation: () async throws -> Value,
+    faliureAction:  () -> Never,
+    handlerAction: (() -> Void)? = nil
+) async -> Result<Value, any Error> where Value: Sendable {
+    do {
+        let result = try await operation()
+        return .success(result)
+    } catch let error as LocalizedError {
+        handler.raise(error, action: handlerAction)
+        return .failure(error)
+    } catch {
+        handler.raise(error, action: handlerAction)
+        return .failure(error)
+    }
+}
