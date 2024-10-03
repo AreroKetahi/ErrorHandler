@@ -30,7 +30,7 @@ Then, add `errorAlert(handler:)` modifier to your `ContentView`.
 struct SampleApp: App {
     @Environment(\.errorHandler) private var handler
   
-    body: some Scene {
+    var body: some Scene {
         WindowGroup {
             ContentView()
                 .errorAlert(handler: handler)
