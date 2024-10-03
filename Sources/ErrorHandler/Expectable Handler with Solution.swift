@@ -54,7 +54,7 @@ public func withErrorHandler<Value, E>(
     operation: () throws -> Value,
     solution: (E) -> (),
     handlerAction: (() -> Void)? = nil
-) throws(E) -> Result<Value, any Error> where E: LocalizedError {
+) -> Result<Value, any Error> where E: LocalizedError {
     do {
         let result = try operation()
         return .success(result)
@@ -77,7 +77,7 @@ func withErrorHandler<Value, E>(
     operation: () async throws -> Value,
     solution: (E) -> (),
     handlerAction: (() -> Void)? = nil
-) async throws(E) -> Result<Value, any Error> where Value: Sendable, E: LocalizedError {
+) async -> Result<Value, any Error> where Value: Sendable, E: LocalizedError {
     do {
         let result = try await operation()
         return .success(result)
