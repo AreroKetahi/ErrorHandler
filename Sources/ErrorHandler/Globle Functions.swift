@@ -44,7 +44,6 @@ func withErrorHandler(
 public func withErrorHandler<Value>(
     _ handler: ErrorHandler,
     operation: () throws -> Value,
-    faliureResult: @autoclosure () -> Value,
     handlerAction: (() -> Void)? = nil
 ) -> Result<Value, any Error> {
     do {
@@ -63,7 +62,6 @@ public func withErrorHandler<Value>(
 func withErrorHandler<Value>(
     _ handler: ErrorHandler,
     operation: () async throws -> Value,
-    faliureAction:  () -> Never,
     handlerAction: (() -> Void)? = nil
 ) async -> Result<Value, any Error> where Value: Sendable {
     do {
