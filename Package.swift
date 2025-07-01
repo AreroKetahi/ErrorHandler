@@ -26,5 +26,6 @@ let package = Package(
             name: "ErrorHandlerTests",
             dependencies: ["ErrorHandler"]
         ),
-    ]
+    ],
+    swiftLanguageModes: [.v6]
 )
