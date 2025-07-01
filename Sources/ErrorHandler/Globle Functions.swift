@@ -24,7 +24,7 @@ public func withErrorHandler(
 }
 
 @inlinable @MainActor
-func withErrorHandler(
+public func withErrorHandler(
     _ handler: ErrorHandler,
     operation: () async throws -> Void,
     handlerAction: (() -> Void)? = nil
@@ -59,7 +59,7 @@ public func withErrorHandler<Value>(
 }
 
 @inlinable @MainActor
-func withErrorHandler<Value>(
+public func withErrorHandler<Value>(
     _ handler: ErrorHandler,
     operation: () async throws -> Value,
     handlerAction: (() -> Void)? = nil
