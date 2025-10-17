@@ -9,11 +9,11 @@ import Foundation
 import SwiftUI
 
 @inlinable
-public func withErrorHandler(
+public func withErrorHandler<E>(
     _ handler: ErrorHandler,
-    operation: () throws -> Void,
+    operation: () throws(E) -> Void,
     handlerAction: (() -> Void)? = nil
-) {
+) where E: Error {
     do {
         try operation()
     } catch let error as LocalizedError {
@@ -24,11 +24,11 @@ public func withErrorHandler(
 }
 
 @inlinable @MainActor
-public func withErrorHandler(
+public func withErrorHandler<E>(
     _ handler: ErrorHandler,
-    operation: () async throws -> Void,
+    operation: () async throws(E) -> Void,
     handlerAction: (() -> Void)? = nil
-) async {
+) async where E: Error {
     do {
         try await operation()
     } catch let error as LocalizedError {
@@ -41,17 +41,14 @@ public func withErrorHandler(
 // MARK: - Error handler with result type
 
 @inlinable
-public func withErrorHandler<Value>(
+public func withErrorHandler<Value, E>(
     _ handler: ErrorHandler,
-    operation: () throws -> Value,
+    operation: () throws(E) -> Value,
     handlerAction: (() -> Void)? = nil
-) -> Result<Value, any Error> {
+) -> Result<Value, E> where E: Error {
     do {
         let result = try operation()
         return .success(result)
-    } catch let error as LocalizedError {
-        handler.raise(error, action: handlerAction)
-        return .failure(error)
     } catch {
         handler.raise(error, action: handlerAction)
         return .failure(error)
@@ -59,17 +56,44 @@ public func withErrorHandler<Value>(
 }
 
 @inlinable @MainActor
-public func withErrorHandler<Value>(
+public func withErrorHandler<Value, E>(
     _ handler: ErrorHandler,
-    operation: () async throws -> Value,
+    operation: () async throws(E) -> Value,
     handlerAction: (() -> Void)? = nil
-) async -> Result<Value, any Error> where Value: Sendable {
+) async -> Result<Value, E> where Value: Sendable, E: Error {
     do {
         let result = try await operation()
         return .success(result)
-    } catch let error as LocalizedError {
+    } catch {
         handler.raise(error, action: handlerAction)
         return .failure(error)
+    }
+}
+
+@inlinable
+public func withErrorHandler<Value, E>(
+    _ handler: ErrorHandler,
+    operation: () throws(E) -> Value,
+    handlerAction: (() -> Void)? = nil
+) -> Result<Value, E> where E: LocalizedError {
+    do {
+        let result = try operation()
+        return .success(result)
+    } catch {
+        handler.raise(error, action: handlerAction)
+        return .failure(error)
+    }
+}
+
+@inlinable @MainActor
+public func withErrorHandler<Value, E>(
+    _ handler: ErrorHandler,
+    operation: () async throws(E) -> Value,
+    handlerAction: (() -> Void)? = nil
+) async -> Result<Value, E> where Value: Sendable, E: LocalizedError {
+    do {
+        let result = try await operation()
+        return .success(result)
     } catch {
         handler.raise(error, action: handlerAction)
         return .failure(error)
