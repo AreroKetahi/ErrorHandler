@@ -10,7 +10,7 @@ import SwiftUI
 
 @inlinable
 public func withErrorHandler<E>(
-    _ handler: ErrorHandler,
+    _ handler: ErrorHandler = .shared,
     operation: () throws(E) -> Void,
     handlerAction: (() -> Void)? = nil
 ) where E: Error {
@@ -25,7 +25,7 @@ public func withErrorHandler<E>(
 
 @inlinable @MainActor
 public func withErrorHandler<E>(
-    _ handler: ErrorHandler,
+    _ handler: ErrorHandler = .shared,
     operation: () async throws(E) -> Void,
     handlerAction: (() -> Void)? = nil
 ) async where E: Error {
@@ -42,7 +42,7 @@ public func withErrorHandler<E>(
 
 @inlinable
 public func withErrorHandler<Value, E>(
-    _ handler: ErrorHandler,
+    _ handler: ErrorHandler = .shared,
     operation: () throws(E) -> Value,
     handlerAction: (() -> Void)? = nil
 ) -> Result<Value, E> where E: Error {
@@ -57,7 +57,7 @@ public func withErrorHandler<Value, E>(
 
 @inlinable @MainActor
 public func withErrorHandler<Value, E>(
-    _ handler: ErrorHandler,
+    _ handler: ErrorHandler = .shared,
     operation: () async throws(E) -> Value,
     handlerAction: (() -> Void)? = nil
 ) async -> Result<Value, E> where Value: Sendable, E: Error {
@@ -72,7 +72,7 @@ public func withErrorHandler<Value, E>(
 
 @inlinable
 public func withErrorHandler<Value, E>(
-    _ handler: ErrorHandler,
+    _ handler: ErrorHandler = .shared,
     operation: () throws(E) -> Value,
     handlerAction: (() -> Void)? = nil
 ) -> Result<Value, E> where E: LocalizedError {
@@ -87,7 +87,7 @@ public func withErrorHandler<Value, E>(
 
 @inlinable @MainActor
 public func withErrorHandler<Value, E>(
-    _ handler: ErrorHandler,
+    _ handler: ErrorHandler = .shared,
     operation: () async throws(E) -> Value,
     handlerAction: (() -> Void)? = nil
 ) async -> Result<Value, E> where Value: Sendable, E: LocalizedError {
