@@ -49,11 +49,11 @@ extension ErrorHandler {
 }
 
 extension View {
-    public func errorAlert(handler: ErrorHandler) -> some View {
+    public func errorAlert(handler: ErrorHandler = .shared) -> some View {
         self.modifier(handler.modifier)
     }
 }
 
 extension EnvironmentValues {
-    @Entry public var errorHandler = ErrorHandler()
+    @Entry public var errorHandler = ErrorHandler.shared
 }

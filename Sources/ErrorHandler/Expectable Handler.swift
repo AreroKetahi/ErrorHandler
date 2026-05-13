@@ -9,7 +9,7 @@ import Foundation
 
 @inlinable
 public func withErrorHandler<E>(
-    _ handler: ErrorHandler,
+    _ handler: ErrorHandler = .shared,
     expectedError: E.Type,
     operation: () throws(E) -> Void,
     handlerAction: (() -> Void)? = nil
@@ -25,7 +25,7 @@ public func withErrorHandler<E>(
 
 @inlinable @MainActor
 public func withErrorHandler<E>(
-    _ handler: ErrorHandler,
+    _ handler: ErrorHandler = .shared,
     expectedError: E.Type,
     operation: () async throws(E) -> Void,
     handlerAction: (() -> Void)? = nil
@@ -43,7 +43,7 @@ public func withErrorHandler<E>(
 
 @inlinable
 public func withErrorHandler<Value, E>(
-    _ handler: ErrorHandler,
+    _ handler: ErrorHandler = .shared,
     expectedError: E.Type,
     operation: () throws(E) -> Value,
     handlerAction: (() -> Void)? = nil
@@ -59,7 +59,7 @@ public func withErrorHandler<Value, E>(
 
 @inlinable @MainActor
 public func withErrorHandler<Value, E>(
-    _ handler: ErrorHandler,
+    _ handler: ErrorHandler = .shared,
     expectedError: E.Type,
     operation: () async throws(E) -> Value,
     handlerAction: (() -> Void)? = nil
@@ -75,7 +75,7 @@ public func withErrorHandler<Value, E>(
 
 @inlinable
 public func withErrorHandler<Value, E>(
-    _ handler: ErrorHandler,
+    _ handler: ErrorHandler = .shared,
     expectedError: E.Type,
     operation: () throws(E) -> Value,
     handlerAction: (() -> Void)? = nil
@@ -91,7 +91,7 @@ public func withErrorHandler<Value, E>(
 
 @inlinable @MainActor
 public func withErrorHandler<Value, E>(
-    _ handler: ErrorHandler,
+    _ handler: ErrorHandler = .shared,
     expectedError: E.Type,
     operation: () async throws(E) -> Value,
     handlerAction: (() -> Void)? = nil

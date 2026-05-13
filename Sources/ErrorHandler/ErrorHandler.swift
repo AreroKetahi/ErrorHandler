@@ -10,6 +10,17 @@ import Observation
 
 @Observable
 public final class ErrorHandler: @unchecked Sendable {
+    /// Shared instance of error handler
+    public static var shared: ErrorHandler {
+        if let _shared { return _shared }
+        else {
+            _shared = ErrorHandler()
+            return .shared
+        }
+    }
+    
+    nonisolated(unsafe) private static var _shared: ErrorHandler?
+    
     public var isPresent = false
     
     public var error: AnyLocalizedError?
