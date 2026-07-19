@@ -53,7 +53,7 @@ extension ErrorHandler {
         self.line = line
         self.column = column
         self.function = function
-        notifyChange()
+//        notifyChange()
         #if DEBUG
         print(error)
         #endif
